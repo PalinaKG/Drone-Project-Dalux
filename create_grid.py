@@ -1,6 +1,7 @@
 import json
 from math import pi, tan
 import numpy as np
+import folium
 
 #Flight height in m
 flight_height = 10 #ATH þessi verður input
@@ -18,9 +19,9 @@ focal_length = 24 # ATH þurfum að finna þessa tölu betur
 angle_of_view = 2*np.arctan(sensor_width / (2*focal_length)) * (180/pi)
 
 #Field of view in m
-field_of_view = 2*(tan(angle_of_view/2)*flight_height)
+field_of_view = abs(2*(tan(angle_of_view/2)*flight_height))
 
-
+print("field of view: ", field_of_view)
 
 f = open('data.json')
 data = json.load(f)
@@ -44,13 +45,17 @@ y_cur = min_y
 grid_coordinates = []
 
 while(x_cur <= max_x):
-    print("x_cur: ", x_cur)
     while(y_cur <= max_y):
         grid_coordinates.append({"x":x_cur,"y":y_cur})
-        y_cur += 0.8*field_of_view
-    x_cur += 0.8*field_of_view
+        y_cur += 0.8*(field_of_view/111139)
+    x_cur += 0.8*(field_of_view/111139)
 
-print(grid_coordinates)
+
+
+map = folium.Map(location=[55.647, 12.572], zoom_start=12)
+for point in grid_coordinates:
+    folium.Marker([point["x"], point["y"]]).add_to(map)
+map
 
 
 
