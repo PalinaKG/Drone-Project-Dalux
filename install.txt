@@ -1,0 +1,22 @@
+ubuntu-20.04.5
+
+sudo apt install tasksel
+sudo tasksel install ubuntu-desktop
+sudo reboot
+
+Installa nýju python versioni 
+https://linuxhint.com/install-python-3-9-linux-mint/
+
+alias python3=python3.9.5
+
+install pip
+
+pip install and venv
+sudo apt-get install python3-pip
+sudo pip3 install virtualenv
+virtualenv -p /usr/bin/python3.9 venv
+source venv/bin/activate
+
+
+pip install parrot-olympe
+apt-get install python3-sphinx
