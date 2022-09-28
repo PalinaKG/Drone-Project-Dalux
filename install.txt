@@ -1,22 +1,36 @@
-ubuntu-20.04.5
+============= ubuntu-20.04.5 ==============
+// Install graphical desktop on Ubuntu
+$ sudo apt install tasksel
+$ sudo tasksel install ubuntu-desktop
+$ sudo reboot
 
-sudo apt install tasksel
-sudo tasksel install ubuntu-desktop
-sudo reboot
+//Install new python version
+$ sudo apt update
+$ sudo apt install software-properties-common
+$ sudo add-apt-repository ppa:deadsnakes/ppa
+$ sudo apt install python3.9
+$ sudo apt-get -f install
 
-Installa nýju python versioni 
-https://linuxhint.com/install-python-3-9-linux-mint/
+$ alias python3=python3.9
 
-alias python3=python3.9.5
+//Install pip and create virtual environment
+$ sudo apt-get install python3-pip
 
-install pip
+$ sudo pip3 install virtualenv
+$ virtualenv -p /usr/bin/python3.9 venv
+$ source venv/bin/activate
 
-pip install and venv
-sudo apt-get install python3-pip
-sudo pip3 install virtualenv
-virtualenv -p /usr/bin/python3.9 venv
-source venv/bin/activate
+//Install Olympe
+$ pip install parrot-olympe
 
+//Vantar að installa sphinx
 
-pip install parrot-olympe
-apt-get install python3-sphinx
+//Set up visual studio code -- using the chapter Installing Visual Studio Code with apt
+$ sudo apt update
+$ sudo apt install software-properties-common apt-transport-https wget
+$ wget -q https://packages.microsoft.com/keys/microsoft.asc -O- | sudo apt-key add -
+$ sudo add-apt-repository "deb [arch=amd64] https://packages.microsoft.com/repos/vscode stable main"
+$ sudo apt install code
+
+//Install python packages
+$ python3 -m pip install folium
