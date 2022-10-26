@@ -4,7 +4,7 @@ import time
 from olympe.messages.ardrone3.Piloting import TakeOff, Landing, moveBy, moveTo
 from olympe.messages.camera import take_photo, set_alignment_offsets, set_camera_mode, set_photo_mode, photo_state, alignment_offsets
 from olympe.messages.common.Calibration import MagnetoCalibration
-from olympe.messages.gimbal import set_target
+from olympe.messages.gimbal import set_target, attitude
 
 DRONE_IP = "192.168.42.1"
 
@@ -75,9 +75,15 @@ def test_take_photo_alignment():
     #alignment offset in degrees, veit ekki hvaða value við eigum að v_telja
     print("BEFORE ALIGNMENT")
     #drone(set_alignment_offsets(cam_id=0, yaw=0, pitch=90, roll=0)).wait()
-    time.sleep(10)
+    time.sleep(5)
     drone(set_target(gimbal_id=0, control_mode=0, yaw_frame_of_reference=1, yaw=0, pitch_frame_of_reference=1, pitch=-90, roll_frame_of_reference=1, roll=0)).wait().success()
-    time.sleep(10)
+    
+    print("Attitude before: ", drone.get_state(attitude)[0]["pitch_relative"]) 
+    while (drone.get_state(attitude)[0]["pitch_relative"] != -90):
+        time.sleep(1)
+        print("Attitude: ", drone.get_state(attitude)[0]["pitch_relative"]) 
+    
+    time.sleep(5)
     print("AFTER ALIGNMENT")
     print("BEFORE SECOND PHOTO")
     #takePhoto()
@@ -98,5 +104,6 @@ if __name__ == "__main__":
     test_take_photo_alignment()
     #land_drone()
     drone.disconnect()
+
 
 
