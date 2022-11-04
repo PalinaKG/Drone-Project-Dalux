@@ -6,7 +6,7 @@ from shapely.geometry.polygon import Polygon
 import networkx as nx
 import networkx.algorithms.approximation as nx_app
 
-def calc_field_of_view(flight_height, FOV_perc=0.8):
+def calc_field_of_view_old(flight_height, FOV_perc=0.8):
     #Flight height in m
     flight_height = flight_height #ATH þessi verður input
 
@@ -15,15 +15,18 @@ def calc_field_of_view(flight_height, FOV_perc=0.8):
 
     #Converting sensor with to mm
     sensor_width *= 25.4
+    print(sensor_width)
 
     #Focal length in mm
-    focal_length = 24 # ATH þurfum að finna þessa tölu betur
+    #focal_length = 24 # ATH þurfum að finna þessa tölu betur
+    focal_length = 25 # ATH þurfum að finna þessa tölu betur
 
     #Angle of view in degrees
     angle_of_view = 2*np.arctan(sensor_width / (2*focal_length)) * (180/pi)
 
     #Field of view in m
     field_of_view = abs(2*(tan(angle_of_view/2)*flight_height))
+    print(field_of_view)
 
     #Convert to GPS coordinates
     field_of_view /= 111139
@@ -32,6 +35,29 @@ def calc_field_of_view(flight_height, FOV_perc=0.8):
     field_of_view *= FOV_perc
 
     return field_of_view
+
+def calc_field_of_view(flight_height, FOV_perc=0.8):
+    #Flight height in m
+    flight_height = flight_height #ATH þessi verður input
+
+    #Angle of view in degrees
+    v_aov = 56.625 * pi / 180
+    h_aov = 75.5 * pi / 180
+
+    #Field of view in m
+    v_fov = abs(2*(tan(v_aov/2)*flight_height))
+    h_fov = abs(2*(tan(h_aov/2)*flight_height))
+
+    #Convert to GPS coordinates
+    v_fov /= 111139
+    h_fov /= 111139
+
+    #Only use the allotted percentage of the field of view
+    v_fov *= FOV_perc
+    h_fov *= FOV_perc
+
+    return h_fov
+
 
 def load_GPS_data(file_name):
     f = open(file_name)
