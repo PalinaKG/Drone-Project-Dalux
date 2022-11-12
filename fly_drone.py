@@ -27,7 +27,7 @@ def drone_moveby(mov_len):
 def calibrate_camera(drone):
     drone(photo_state(cam_id=0, available=1, state=1))
     drone(set_camera_mode(cam_id=0,value="photo")).wait()
-    drone(set_photo_mode(cam_id=0,mode=1,format=0,file_format=0,burst=0,bracketing=0,capture_interval=0)).wait()
+    drone(set_photo_mode(cam_id=0,mode=0,format=1,file_format=0,burst=0,bracketing=0,capture_interval=0)).wait()
 
 def drone_take_photo(drone):
     if not drone(take_photo(cam_id=0)).wait().success():
