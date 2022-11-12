@@ -101,8 +101,8 @@ if __name__ == "__main__":
     drone = olympe.Drone(DRONE_IP)
     drone.connect()
     #test_takeoff()
-    test_take_photo_alignment()
-    #land_drone()
+    #test_take_photo_alignment()
+    land_drone()
     drone.disconnect()
 
 
