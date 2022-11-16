@@ -19,7 +19,6 @@ if inp_filter == 'd':
     while(True):
         try:
             datetime.datetime.strptime(inp_date, '%d/%m/%Y')
-            print('before break')
             break
         except:
             inp_date = input("Please enter valid date in the format dd/mm/yyyy: ")
