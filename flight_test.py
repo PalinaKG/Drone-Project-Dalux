@@ -101,48 +101,48 @@ list_of_coordinates = [ {'x': 55.783342468733196, 'y': 12.494245524363492},
 #     assert drone(Landing()).wait().success()
 
 if __name__ == "__main__":
-    flight_height = 1.
+    flight_height = 3.
     field_of_view = calc_field_of_view_m(flight_height=flight_height, FOV_perc=0.2)
 
     drone = olympe.Drone(DRONE_IP)
     drone.connect()
     
-    drone_takeoff(drone)
+    # drone_takeoff(drone,flight_height)
 
-    calibrate_camera(drone)
-    align_camera(drone)
+    # calibrate_camera(drone)
+    # align_camera(drone)
 
-    drone_take_photo(drone)
+    # drone_take_photo(drone)
 
-    drone(moveBy(field_of_view, 0, 0, 0)).wait()
-    drone_take_photo(drone)
+    # for i in range(0,5):
+    #     drone(moveBy(field_of_view, 0, 0, 0)).wait()
+    #     drone_take_photo(drone)
 
-    drone(moveBy(field_of_view, 0, 0, 0)).wait()
-    drone_take_photo(drone)
+    
+    # drone(moveBy(0, field_of_view, 0, 0)).wait()
+    # drone_take_photo(drone)
 
-    drone(moveBy(field_of_view, 0, 0, 0)).wait()
-    drone_take_photo(drone)
+    # for i in range(0,5):
+    #     drone(moveBy(-field_of_view, 0, 0, 0)).wait()
+    #     drone_take_photo(drone)
 
-    drone(moveBy(field_of_view, 0, 0, 0)).wait()
-    drone_take_photo(drone)
-
-    drone(moveBy(0, field_of_view, 0, 0)).wait()
-    drone_take_photo(drone)
-
-    drone(moveBy(-field_of_view, 0, 0, 0)).wait()
-    drone_take_photo(drone)
-
-    drone(moveBy(-field_of_view, 0, 0, 0)).wait()
-    drone_take_photo(drone)
-
-    drone(moveBy(-field_of_view, 0, 0, 0)).wait()
-    drone_take_photo(drone)
-
-    drone(moveBy(-field_of_view, 0, 0, 0)).wait()
-    drone_take_photo(drone)
+    # drone(moveBy(0, field_of_view, 0, 0)).wait()
+    # drone_take_photo(drone)
 
 
+    # for i in range(0,5):
+    #     drone(moveBy(field_of_view, 0, 0, 0)).wait()
+    #     drone_take_photo(drone)
 
+    # drone(moveBy(0, field_of_view, 0, 0)).wait()
+    # drone_take_photo(drone)
+
+    # for i in range(0,5):
+    #     drone(moveBy(-field_of_view, 0, 0, 0)).wait()
+    #     drone_take_photo(drone)
+
+
+    # drone(moveBy(1, 0, 0, 0)).wait()
     land_drone(drone)
     drone.disconnect()
 

@@ -13,8 +13,9 @@ DRONE_IP = "192.168.42.1"
 def land_drone(drone):
     assert drone(Landing()).wait().success()
 
-def drone_takeoff(drone):
+def drone_takeoff(drone, flight_height):
     assert drone(TakeOff()).wait().success()
+    drone(moveBy(0, 0, 1-flight_height, 0)).wait()
     time.sleep(2)
 
 def drone_moveto(drone,lat,lon,height):
