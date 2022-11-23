@@ -1,5 +1,5 @@
 import json
-from math import pi, tan
+from math import pi, tan, cos
 import numpy as np
 from shapely.geometry import Point
 from shapely.geometry.polygon import Polygon
@@ -35,11 +35,11 @@ def calc_field_of_view_old(flight_height, FOV_perc=0.8):
 
     return field_of_view
 
-def calc_field_of_view_GPS(flight_height, FOV_perc=0.8):
+def calc_field_of_view_GPS(flight_height, first_lat, FOV_perc=0.8):
     #Flight height in m
-    flight_height = flight_height #ATH þessi verður input
+    flight_height = flight_height
 
-    #Angle of view in degrees
+    #Angle of view in radians
     v_aov = 56.625 * pi / 180
     h_aov = 75.5 * pi / 180
 
@@ -47,19 +47,19 @@ def calc_field_of_view_GPS(flight_height, FOV_perc=0.8):
     v_fov = abs(2*(tan(v_aov/2)*flight_height))
     h_fov = abs(2*(tan(h_aov/2)*flight_height))
 
+    #Using only smaller dimensions
+    fov = min(v_fov,h_fov)
+    fov *= FOV_perc
+
     #Convert to GPS coordinates
-    v_fov /= 111139
-    h_fov /= 111139
+    lat_fov = fov / 111139
+    lon_fov = fov / (111139  * cos(first_lat * pi/180))
 
-    #Only use the allotted percentage of the field of view
-    v_fov *= FOV_perc
-    h_fov *= FOV_perc
-
-    return h_fov
+    return lat_fov, lon_fov
 
 def calc_field_of_view_m(flight_height, FOV_perc=0.8):
     #Flight height in m
-    flight_height = flight_height #ATH þessi verður input
+    flight_height = flight_height
 
     #Angle of view in degrees
     v_aov = 56.625 * pi / 180
@@ -69,11 +69,15 @@ def calc_field_of_view_m(flight_height, FOV_perc=0.8):
     v_fov = abs(2*(tan(v_aov/2)*flight_height))
     h_fov = abs(2*(tan(h_aov/2)*flight_height))
 
-    #Only use the allotted percentage of the field of view
-    v_fov *= FOV_perc
-    h_fov *= FOV_perc
+    #Using only smaller dimensions
+    fov = min(v_fov,h_fov)
+    fov *= FOV_perc
 
-    return h_fov
+    #Convert to GPS coordinates
+    lat_fov = fov
+    lon_fov = fov  * cos(first_lat * pi/180)
+
+    return lat_fov, lon_fov
 
 
 def load_GPS_data(file_name):
