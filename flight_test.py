@@ -159,7 +159,7 @@ if __name__ == "__main__":
 
     # for j in range(0,7):
     #     print("STARTING NEW J:",j)
-    #     drone(moveBy(0, field_of_view, 0, 0)).wait()
+    #     drone(moveBy(0, -field_of_view, 0, 0)).wait()
     #     drone_take_photo(drone)
 
     #     if j in [0,2,4,6]:
