@@ -35,7 +35,7 @@ def calc_field_of_view_old(flight_height, FOV_perc=0.8):
 
     return field_of_view
 
-def calc_field_of_view_GPS(flight_height, first_lat, FOV_perc=0.8):
+def calc_field_of_view_GPS(flight_height, first_lat, FOV_perc=0.2):
     #Flight height in m
     flight_height = flight_height
 
@@ -57,7 +57,7 @@ def calc_field_of_view_GPS(flight_height, first_lat, FOV_perc=0.8):
 
     return lat_fov, lon_fov
 
-def calc_field_of_view_m(flight_height, FOV_perc=0.8):
+def calc_field_of_view_m(flight_height, FOV_perc=0.2):
     #Flight height in m
     flight_height = flight_height
 
@@ -73,11 +73,7 @@ def calc_field_of_view_m(flight_height, FOV_perc=0.8):
     fov = min(v_fov,h_fov)
     fov *= FOV_perc
 
-    #Convert to GPS coordinates
-    lat_fov = fov
-    lon_fov = fov  * cos(first_lat * pi/180)
-
-    return lat_fov, lon_fov
+    return fov
 
 
 def load_GPS_data(file_name):
