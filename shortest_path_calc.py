@@ -113,10 +113,7 @@ def create_GPS_grid(x,y, field_of_view):
                 grid_coordinates.append({"x":x_cur,"y":y_cur})
             y_cur += field_of_view
         x_cur += field_of_view
-    
-    return grid_coordinates
 
-def calc_shortest_path(grid_coordinates, field_of_view):
 
     G = nx.Graph()
 
@@ -132,15 +129,32 @@ def calc_shortest_path(grid_coordinates, field_of_view):
             y_dist = abs(G.nodes[node]['coordinate']['y'] - G2.nodes[node2]['coordinate']['y'])
             if (x_dist <= max_dist and y_dist <= max_dist):
                 G.add_edge(node, node2, weight = np.sqrt(x_dist**2 + y_dist**2))
+    
+    return G
 
+def calc_shortest_path(G, field_of_view, start):
 
-    path = nx_app.traveling_salesman_problem(G, cycle=False)
+    start_node = find_start_node(G,start)
+
+    method = lambda G, source=start_node : nx_app.greedy_tsp(G, source=start_node)
+    path = nx_app.traveling_salesman_problem(G,method=method)
 
     list_of_coordinates = []
     for node in path:
         list_of_coordinates.append(G.nodes[node]['coordinate'])
 
     return list_of_coordinates
+
+def find_start_node(G,start):
+    #Find node closest to start (used in greedy_tsp algorithm)
+    min_dist = inf
+    for node in G.nodes:
+        dist = geo_dist.geodesic(start, (G.nodes[node]['coordinate']['x'],G.nodes[node]['coordinate']['y'])).m
+        if dist < min_dist:
+            min_dist = dist
+            min_node = node
+        
+    return min_node
 
 
 

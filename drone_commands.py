@@ -31,10 +31,12 @@ def calibrate_camera(drone):
     drone(set_photo_mode(cam_id=0,mode=0,format=1,file_format=0,burst=0,bracketing=0,capture_interval=0)).wait()
 
 def drone_take_photo(drone):
+    time.sleep(0.5)
     if not drone(take_photo(cam_id=0)).wait().success():
         print("Cannot take photo")
     else:
         print("Take photo successful")
+    time.sleep(0.5)
     
 def align_camera(drone):
     drone(set_target(gimbal_id=0, control_mode=0, yaw_frame_of_reference=1, yaw=0, pitch_frame_of_reference=1, pitch=-90, roll_frame_of_reference=1, roll=0)).wait().success()

@@ -5,6 +5,7 @@ from olympe.messages.ardrone3.Piloting import TakeOff, Landing, moveBy, moveTo
 from olympe.messages.camera import take_photo, set_alignment_offsets, set_camera_mode, set_photo_mode, photo_state, alignment_offsets
 from olympe.messages.common.Calibration import MagnetoCalibration
 from olympe.messages.gimbal import set_target, attitude
+from olympe.messages.ardrone3.GPSSettingsState import HomeChanged, GPSFixStateChanged
 
 from drone_commands import *
 from shortest_path_calc import *
@@ -116,13 +117,63 @@ if __name__ == "__main__":
 
     # drone_take_photo(drone)
 
-    # for i in range(0,3):
+    # for i in range(6,15):
+    #     print("NEW I:", i)
     #     drone(moveBy(field_of_view, 0, 0, 0)).wait()
     #     drone_take_photo(drone)
 
-    
+    # print("MOVE RIGHT 1")
+
     # drone(moveBy(0, field_of_view, 0, 0)).wait()
     # drone_take_photo(drone)
+
+    # for i in range(0,15):
+    #     print("NEW I:", i)
+    #     drone(moveBy(-field_of_view, 0, 0, 0)).wait()
+    #     drone_take_photo(drone)
+
+    # print("MOVE RIGHT 2")
+
+    # drone(moveBy(0, field_of_view, 0, 0)).wait()
+    # drone_take_photo(drone)
+
+    # for i in range(0,15):
+    #     print("NEW I:", i)
+    #     drone(moveBy(field_of_view, 0, 0, 0)).wait()
+    #     drone_take_photo(drone)
+
+    # print("MOVE RIGHT 3")
+
+    # drone(moveBy(0, field_of_view, 0, 0)).wait()
+    # drone_take_photo(drone)
+
+    # for i in range(0,15):
+    #     print("NEW I:", i)
+    #     drone(moveBy(-field_of_view, 0, 0, 0)).wait()
+    #     drone_take_photo(drone)
+
+
+    # for i in range(0,15):
+    #     drone(moveBy(field_of_view, 0, 0, 0)).wait()
+    #     drone_take_photo(drone)
+
+    # for j in range(0,7):
+    #     print("STARTING NEW J:",j)
+    #     drone(moveBy(0, field_of_view, 0, 0)).wait()
+    #     drone_take_photo(drone)
+
+    #     if j in [0,2,4,6]:
+    #         for i in range(0,15):
+    #             print("NEW I:", i)
+    #             drone(moveBy(-field_of_view, 0, 0, 0)).wait()
+    #             drone_take_photo(drone)
+    #     else:
+    #         for i in range(0,15):
+    #             print("NEW I:", i)
+    #             drone(moveBy(field_of_view, 0, 0, 0)).wait()
+    #             drone_take_photo(drone)
+
+    # print("FOR LOOP DONE")
 
     # for i in range(0,3):
     #     drone(moveBy(-field_of_view, 0, 0, 0)).wait()
@@ -144,7 +195,16 @@ if __name__ == "__main__":
     #     drone_take_photo(drone)
 
 
-    # drone(moveBy(1, 0, 0, 0)).wait()
+    #drone(moveBy(2, 0, 0, 0)).wait()
+    # drone(GPSFixStateChanged(_policy = 'wait'))
+
+    # GPS_state = drone.get_state(HomeChanged)
+
+    # starting_node = (GPS_state["latitude"], GPS_state["longitude"])
+
+    # print("GPS position before take-off : lat =", starting_node[0], "lon =", starting_node[1])
+
+
     land_drone(drone)
     drone.disconnect()
 

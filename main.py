@@ -8,17 +8,16 @@ x,y = load_GPS_data("test_data_lyngby.json")
 
 grid_coordinates = create_GPS_grid(x,y,field_of_view)
 
-path_coordinates = calc_shortest_path(grid_coordinates, field_of_view)
-
-print(len(path_coordinates))
-
-print(path_coordinates[0]['x'])
-
 drone = olympe.Drone(DRONE_IP)
 drone.connect()
 
-drone_takeoff(drone)
+GPS_state = drone.get_state(HomeChanged)
 
+start = (GPS_state["latitude"], GPS_state["longitude"])
+
+path_coordinates = calc_shortest_path(grid_coordinates, field_of_view, start)
+
+drone_takeoff(drone)
 
 calibrate_camera(drone)
 align_camera(drone)
