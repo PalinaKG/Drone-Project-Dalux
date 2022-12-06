@@ -1,0 +1,4 @@
+networkx==2.8.7
+parrot-olympe==7.4.2
+Shapely==1.8.5.post1
+requests==2.28.1
