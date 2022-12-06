@@ -1,10 +1,11 @@
 import json
-from math import pi, tan, cos
+from math import pi, tan, cos, inf
 import numpy as np
 from shapely.geometry import Point
 from shapely.geometry.polygon import Polygon
 import networkx as nx
 import networkx.algorithms.approximation as nx_app
+import geopy.distance as geo_dist
 
 def calc_field_of_view_old(flight_height, FOV_perc=0.8):
     #Flight height in m
@@ -90,7 +91,7 @@ def load_GPS_data(file_name):
     
     return x,y
 
-def create_GPS_grid(x,y, field_of_view):
+def create_GPS_grid(x,y,lat_fov,lon_fov,fov_m):
     max_x = max(x)
     min_x = min(x)
     max_y = max(y)
@@ -111,8 +112,8 @@ def create_GPS_grid(x,y, field_of_view):
             point2 = Point(x_cur ,y_cur)
             if polygon.contains(point2):
                 grid_coordinates.append({"x":x_cur,"y":y_cur})
-            y_cur += field_of_view
-        x_cur += field_of_view
+            y_cur += lon_fov
+        x_cur += lat_fov
 
 
     G = nx.Graph()
@@ -120,19 +121,19 @@ def create_GPS_grid(x,y, field_of_view):
     for idx, coordinate in enumerate(grid_coordinates):
         G.add_node(idx, is_full=0, coordinate=coordinate)
         
-    max_dist = np.sqrt(2*(field_of_view**2))
+    max_dist = np.sqrt(2*(fov_m**2)) + (0.1*fov_m)
     G2 = G.copy()
     for node in G:
         G2.remove_node(node)
         for node2 in G2:
-            x_dist = abs(G.nodes[node]['coordinate']['x'] - G2.nodes[node2]['coordinate']['x'])
-            y_dist = abs(G.nodes[node]['coordinate']['y'] - G2.nodes[node2]['coordinate']['y'])
-            if (x_dist <= max_dist and y_dist <= max_dist):
-                G.add_edge(node, node2, weight = np.sqrt(x_dist**2 + y_dist**2))
+            dist = geo_dist.geodesic((G.nodes[node]['coordinate']['x'],G.nodes[node]['coordinate']['y']), 
+                            (G2.nodes[node2]['coordinate']['x'],G2.nodes[node2]['coordinate']['y'])).m
+            if dist <= max_dist:
+                G.add_edge(node, node2, weight = dist)
     
     return G
 
-def calc_shortest_path(G, field_of_view, start):
+def calc_shortest_path(G,start):
 
     start_node = find_start_node(G,start)
 

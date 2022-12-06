@@ -1,7 +1,7 @@
 import olympe
 import os
 import time
-from olympe.messages.ardrone3.Piloting import TakeOff, Landing, moveBy, moveTo
+from olympe.messages.ardrone3.Piloting import TakeOff, Landing, moveBy, moveTo, NavigateHome
 from olympe.messages.camera import take_photo, set_alignment_offsets, set_camera_mode, set_photo_mode, photo_state, alignment_offsets
 from olympe.messages.common.Calibration import MagnetoCalibration
 from olympe.messages.gimbal import set_target, attitude
@@ -24,6 +24,9 @@ def drone_moveto(drone,lat,lon,height):
 
 def drone_moveby(drone, mov_len):
     drone(moveBy(mov_len, 0, 0, 0)).wait()
+
+def drone_return(drone):
+    drone(NavigateHome(start=1)).wait().succes()
 
 def calibrate_camera(drone):
     drone(photo_state(cam_id=0, available=1, state=1))
